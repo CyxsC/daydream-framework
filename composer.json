@@ -1,0 +1,21 @@
+{
+    "name": "daydream/dardream-franmework",
+    "description": "dardream franmework main",
+    "type": "library",
+    "require": {
+        "php": ">= 7.2.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Daydream\\DardreamFranmework\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "CyxsC",
+            "email": "3355984942@qq.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
