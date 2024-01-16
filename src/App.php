@@ -1,36 +1,49 @@
 <?php 
 
-namespace daydream;
+declare (strict_types = 1);
+
+namespace Daydream;
 
 use Daydream\Container;
-use Daydream\Coed;
-use Daydream\Call;
-use Daydream\Config;
-use Daydream\Http;
-use Daydream\Request;
-use Daydream\Route;
-use Daydream\Middleware;
 
 class App extends Container{
 
-    protected $indexpath;
+    /**
+     * application start time
+     */
+    protected $start;
 
-    protected $daydreampath;
+    /**
+     * app files path
+     */
+    protected $appPath;
 
-    private $container = [
-        "App" => App::class,
-        "Coed" => Coed::class,
-        "Call" => Call::class,
-        "Config" => Config::class,
-        "Route" => Route::class,
-        "Middleware" => Middleware::class,
-        "Http" => Http::class,
-        "Request" => Request::class,
+    /**
+     * franmework files path
+     */
+    protected $daydreamPath;
+
+    protected $container = [
+        "app" => App::class,
+        "coed" => Coed::class,
+        "call" => Call::class,
+        "config" => Config::class,
+        "route" => Route::class,
+        "middleware" => Middleware::class,
+        "http" => Http::class,
+        "request" => Request::class,
     ];
 
     public function __construct(){
-        $this->$daydreampath = dirname(__FILE__).DIRECTORY_SEPARATOR;
-        echo json_encode ($this->$daydreampath);
+        $this->$daydreamPath = dirname(__FILE__, 2).DIRECTORY_SEPARATOR;
+        $this->$appPath = dirname(__FILE__, 2).DIRECTORY_SEPARATOR;
+
+        $this->init();
+    }
+
+    protected function init(){
+        include_once $this->$daydreampath.'helper.php';
+
         // 加载配置
         // $this->config();
         // 加载路由
@@ -40,21 +53,19 @@ class App extends Container{
     }
 
     private function route(){
-        $route = new \daydream\Route();
+        $route = $this->route;
         $route->run();
     }
 
     // 加载配置
     private function config(){
-        $config = require_once $indexpath.'config/config.php';
-        foreach($config as $key => $value){
-            \daydream\Config::set($key, $value);
-        }
+        // foreach($config as $key => $value){
+        //     \daydream\Config::set($key, $value);
+        // }
     }
 
     private function controller(){
-        $controller = \daydream\Config::get('route.controller');
-        $controller = new $controller();
-        $controller->$action($params);
+        // $controller = new $controller();
+        // $controller->$action($params);
     }
 }
